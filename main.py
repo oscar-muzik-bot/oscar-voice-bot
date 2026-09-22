@@ -97,7 +97,7 @@ async def join_vc(client: Client, message: Message):
     chat_id = message.chat.id
     try:
         # Önce boş ses dosyası çalarak gruba girelim
-        await call_py.join_group_call(
+        await call_py.play(
             chat_id,
             MediaStream("blank.mp3") if os.path.exists("blank.mp3") else None
         )
@@ -111,7 +111,7 @@ async def leave_vc(client: Client, message: Message):
         return
     chat_id = message.chat.id
     try:
-        await call_py.leave_group_call(chat_id)
+        await call_py.leave_call(chat_id)
         await message.reply_text("👋 Sesli sohbetten ayrıldım.")
     except Exception as e:
         await message.reply_text(f"❌ Ayrılırken hata: {e}")
@@ -124,7 +124,7 @@ async def handle_voice_ai(client: Client, message: Message):
     if text == "sus":
         if call_py:
             try:
-                await call_py.leave_group_call(chat_id)
+                await call_py.leave_call(chat_id)
                 await message.reply_text("🤫 Tamam, sustum!")
             except Exception:
                 pass
@@ -142,14 +142,14 @@ async def handle_voice_ai(client: Client, message: Message):
 
         if call_py:
             try:
-                await call_py.change_stream(
+                await call_py.play(
                     chat_id,
                     MediaStream(audio_file)
                 )
                 await reply_msg.edit_text(f"🗣️ **Oskar:** {ai_reply}")
             except Exception:
                 try:
-                    await call_py.join_group_call(
+                    await call_py.play(
                         chat_id,
                         MediaStream(audio_file)
                     )
