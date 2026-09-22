@@ -71,7 +71,7 @@ def get_ai_response(chat_id: int, prompt: str) -> str:
         return response.text
     except Exception as e:
         logging.error(f"Gemini hatası: {e}")
-        return "Üzgünüm, şu an bilgiye ulaşamadım."
+                return f"Üzgünüm, yapay zekaya bağlanamadım. Hata: {str(e)}"
 
 def text_to_speech(text: str, filename: str = "response.mp3"):
     """Metni Türkçe ses dosyasına dönüştürür."""
