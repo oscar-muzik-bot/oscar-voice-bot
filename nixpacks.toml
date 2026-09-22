@@ -1,3 +1,2 @@
-[providers]
-[providers.apt]
-packages = ["ffmpeg"]
+[phases.setup]
+aptPkgs = ["ffmpeg"]
