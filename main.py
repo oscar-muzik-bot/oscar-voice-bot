@@ -27,7 +27,7 @@ else:
     model = None
     logging.warning("GEMINI_API_KEY bulunamadı!")
 
-# 1. Bot İstemcisi (Mesajlara cevap veren beyin)
+# Bot İstemcisi (Mesajlara cevap veren)
 app = Client(
     "oscar_bot",
     api_id=API_ID,
@@ -35,7 +35,7 @@ app = Client(
     bot_token=BOT_TOKEN
 )
 
-# 2. Sesli Sohbete Katılacak Asistan İstemcisi (Kullanıcı hesabı)
+# Sesli Sohbete Katılacak Asistan İstemcisi (Kullanıcı hesabı)
 if STRING_SESSION:
     user_app = Client(
         "oscar_user",
@@ -95,6 +95,11 @@ async def join_vc(client: Client, message: Message):
         return await message.reply_text("❌ STRING_SESSION yok. Sesli sohbete katılamam.")
     
     chat_id = message.chat.id
+    if user_app:
+        try:
+            await user_app.get_chat(chat_id)
+        except Exception:
+            pass
     try:
         # Önce boş ses dosyası çalarak gruba girelim
         await call_py.play(
@@ -120,6 +125,12 @@ async def leave_vc(client: Client, message: Message):
 async def handle_voice_ai(client: Client, message: Message):
     text = message.text.lower().strip()
     chat_id = message.chat.id
+    
+    if user_app:
+        try:
+            await user_app.get_chat(chat_id)
+        except Exception:
+            pass
 
     if text == "sus":
         if call_py:
