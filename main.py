@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from pytgcalls import PyTgCalls
-from pytgcalls.types import AudioPiped
+from pytgcalls.types import MediaStream
 import google.generativeai as genai
 from gtts import gTTS
 
@@ -99,7 +99,7 @@ async def join_vc(client: Client, message: Message):
         # Önce boş ses dosyası çalarak gruba girelim
         await call_py.join_group_call(
             chat_id,
-            AudioPiped("blank.mp3") if os.path.exists("blank.mp3") else None
+            MediaStream("blank.mp3") if os.path.exists("blank.mp3") else None
         )
         await message.reply_text("🎙️ Sesli sohbete katıldım! 'oskar bot' diyerek benimle konuşabilirsiniz.")
     except Exception as e:
@@ -144,14 +144,14 @@ async def handle_voice_ai(client: Client, message: Message):
             try:
                 await call_py.change_stream(
                     chat_id,
-                    AudioPiped(audio_file)
+                    MediaStream(audio_file)
                 )
                 await reply_msg.edit_text(f"🗣️ **Oskar:** {ai_reply}")
             except Exception:
                 try:
                     await call_py.join_group_call(
                         chat_id,
-                        AudioPiped(audio_file)
+                        MediaStream(audio_file)
                     )
                     await reply_msg.edit_text(f"🗣️ **Oskar:** {ai_reply}")
                 except Exception as join_err:
