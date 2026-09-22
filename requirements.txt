@@ -1,8 +1,6 @@
-pyrogram
+pyrogram==2.0.106
 TgCrypto
-py-tgcalls
 python-dotenv
-google-generativeai
+pytgcalls==1.2.0
 gTTS
-pydub
-pycryptodome
+google-generativeai
